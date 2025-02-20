@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -83,12 +82,21 @@ export default {
           "0%": { opacity: "1" },
           "100%": { opacity: "0" },
         },
+        "neon-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 15px #4CAF50, 0 0 30px #4CAF50, 0 0 45px #4CAF50",
+          },
+          "50%": {
+            boxShadow: "0 0 20px #4CAF50, 0 0 40px #4CAF50, 0 0 60px #4CAF50",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.2s ease-out",
         "fade-out": "fade-out 0.2s ease-out",
+        "neon-pulse": "neon-pulse 2s ease-in-out infinite",
       },
     },
   },

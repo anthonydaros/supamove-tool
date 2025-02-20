@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Shield, Database, Key } from "lucide-react";
+import { Shield, Key } from "lucide-react";
+import SupabaseIcon from './SupabaseIcon';
 
 interface DatabaseFormProps {
   type: 'source' | 'destination';
@@ -36,10 +37,12 @@ const DatabaseForm = ({
 
   return (
     <form onSubmit={handleSubmit} className={cn("glass-panel p-6 rounded-lg space-y-4", className)}>
-      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <Database className="h-5 w-5" />
-        {type === 'source' ? 'Source' : 'Destination'} Database
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold flex items-center gap-2">
+          <SupabaseIcon isVerified={isVerified} />
+          {type === 'source' ? 'Source' : 'Destination'} Database
+        </h2>
+      </div>
       
       <div className="space-y-2">
         <Label htmlFor={`${type}-project-id`}>Project ID</Label>
