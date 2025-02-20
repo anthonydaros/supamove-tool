@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatabaseForm from '@/components/DatabaseForm';
 import Terminal from '@/components/Terminal';
 import { Button } from "@/components/ui/button";
@@ -18,24 +18,45 @@ interface LogEntry {
   type: 'info' | 'error' | 'success';
 }
 
+const STORAGE_KEYS = {
+  SOURCE_DB: 'supabase-migration-source',
+  DEST_DB: 'supabase-migration-dest'
+};
+
 const Index = () => {
   const { toast } = useToast();
-  const [sourceDb, setSourceDb] = useState<DatabaseConfig>({
-    projectId: '',
-    password: '',
-    serviceRole: '',
+  const [sourceDb, setSourceDb] = useState<DatabaseConfig>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.SOURCE_DB);
+    return saved ? JSON.parse(saved) : {
+      projectId: '',
+      password: '',
+      serviceRole: '',
+    };
   });
-  const [destDb, setDestDb] = useState<DatabaseConfig>({
-    projectId: '',
-    password: '',
-    serviceRole: '',
+
+  const [destDb, setDestDb] = useState<DatabaseConfig>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.DEST_DB);
+    return saved ? JSON.parse(saved) : {
+      projectId: '',
+      password: '',
+      serviceRole: '',
+    };
   });
+
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [isVerifyingSource, setIsVerifyingSource] = useState(false);
   const [isVerifyingDest, setIsVerifyingDest] = useState(false);
   const [isSourceVerified, setIsSourceVerified] = useState(false);
   const [isDestVerified, setIsDestVerified] = useState(false);
   const [isMigrating, setIsMigrating] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.SOURCE_DB, JSON.stringify(sourceDb));
+  }, [sourceDb]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.DEST_DB, JSON.stringify(destDb));
+  }, [destDb]);
 
   const addLog = (message: string, type: LogEntry['type'] = 'info') => {
     setLogs(prev => [...prev, { timestamp: new Date(), message, type }]);
